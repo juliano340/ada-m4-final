@@ -125,8 +125,9 @@ function displayCards(users, filteredUserId = null, filteredTag = null) {
         // Encontra o usuário relacionado ao card
         const user = users.find(user => user.id === card.userId);
         
-        // Estrutura do card com botões para mover para direita/esquerda
+        // Estrutura do card com botão de excluir no canto superior esquerdo
         cardDiv.innerHTML = `
+            <button class="delete-btn" onclick="deleteCard(${card.id})">🗑️</button>
             <h3>${card.title}</h3>
             <p><strong>Usuário:</strong> ${user.name}</p>
             <p><strong>Tag:</strong> ${card.tag}</p>
@@ -170,6 +171,15 @@ window.moveCardRight = function(cardId) {
     } else if (card.status === 'In Progress') {
         card.status = 'Completed';
     }
+    // Salva os cards atualizados no localStorage
+    localStorage.setItem('cards', JSON.stringify(cards));
+    const users = JSON.parse(localStorage.getItem('users')); // Obtém os usuários do localStorage
+    displayCards(users, selectedUserId, selectedTag); // Atualiza a exibição dos cards
+}
+
+// Função para excluir o card
+window.deleteCard = function(cardId) {
+    cards = cards.filter(card => card.id !== cardId); // Remove o card com o ID correspondente
     // Salva os cards atualizados no localStorage
     localStorage.setItem('cards', JSON.stringify(cards));
     const users = JSON.parse(localStorage.getItem('users')); // Obtém os usuários do localStorage
@@ -327,5 +337,3 @@ function showFeedback(message) {
     feedbackMessage.remove();
   }, 3000);
 }
-
-

@@ -292,3 +292,34 @@ header {
   resize: none;
   height: 80px; /* Define a altura do campo de descrição */
 }
+
+/* Estilo do botão de excluir */
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 15px;
+  height: 15px;
+  /* background-color: rgb(231, 30, 30); */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* Posição dos cards */
+.card {
+  position: relative; /* Necessário para que o botão de exclusão fique posicionado no card */
+  margin: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
