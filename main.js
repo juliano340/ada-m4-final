@@ -7,10 +7,10 @@ let selectedTag = null; // Variável para armazenar a tag selecionada
 
 // Array de cards (com status) em memória inicial
 let cards = [
-    { id: 1, title: 'Implementar página de login', userId: 1, tag: 'Frontend', status: 'Todo' },
-    { id: 2, title: 'Configurar servidor', userId: 2, tag: 'Backend', status: 'In Progress' },
-    { id: 3, title: 'Criar API para pagamentos', userId: 3, tag: 'Fullstack', status: 'Completed' },
-    { id: 4, title: 'Design do dashboard', userId: 4, tag: 'Frontend', status: 'Todo' }
+    { id: 1, title: 'Implementar página de login', userId: 1, tag: 'Frontend', status: 'Todo', createdAt: new Date('2023-01-01T10:00:00') },
+    { id: 2, title: 'Configurar servidor', userId: 2, tag: 'Backend', status: 'In Progress', createdAt: new Date('2023-02-15T14:30:00') },
+    { id: 3, title: 'Criar API para pagamentos', userId: 3, tag: 'Fullstack', status: 'Completed', createdAt: new Date('2023-03-10T09:45:00') },
+    { id: 4, title: 'Design do dashboard', userId: 4, tag: 'Frontend', status: 'Todo', createdAt: new Date('2023-04-05T16:00:00') }
 ];
 
 // Função para carregar os cards do localStorage ou salvar os cards iniciais
@@ -19,10 +19,30 @@ function loadCardsFromLocalStorage() {
     if (storedCards) {
         // Se houver cards no localStorage, carregá-los
         cards = JSON.parse(storedCards);
+        // Converte as strings de data de volta para objetos Date
+        cards.forEach(card => {
+            if (typeof card.createdAt === 'string') {
+                card.createdAt = new Date(card.createdAt);
+            }
+        });
     } else {
         // Se não houver, salvar os cards da memória inicial no localStorage
         localStorage.setItem('cards', JSON.stringify(cards));
     }
+}
+
+// Função para formatar a data
+function formatDate(date) {
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+        return '[Data inválida]'; // Valor padrão caso a data não seja válida
+    }
+    return date.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 }
 
 // Função para buscar os dados de usuários e salvar no localStorage
@@ -110,6 +130,7 @@ function displayCards(users, filteredUserId = null, filteredTag = null) {
             <h3>${card.title}</h3>
             <p><strong>Usuário:</strong> ${user.name}</p>
             <p><strong>Tag:</strong> ${card.tag}</p>
+            <p><strong>Criado em:</strong> ${formatDate(card.createdAt)}</p>
             <div class="card-buttons">
                 ${card.status !== 'Todo' ? `<button onclick="moveCardLeft(${card.id})">⬅️</button>` : ''}
                 ${card.status !== 'Completed' ? `<button onclick="moveCardRight(${card.id})">➡️</button>` : ''}
@@ -265,13 +286,14 @@ addTaskForm.onsubmit = function(event) {
   const tag = document.getElementById("tagSelect").value;
   const description = document.getElementById("taskDescription").value;
 
-  // Criar o novo card com status "Todo"
+  // Criar o novo card com status "Todo" e data de criação atual
   const newCard = {
     id: cards.length + 1, // Gera um novo ID incremental
     title: description,
     userId: parseInt(userId),
     tag: tag,
-    status: "Todo"
+    status: "Todo",
+    createdAt: new Date() // Data de criação atual
   };
 
   // Adiciona a nova tarefa ao array de cards
@@ -305,3 +327,5 @@ function showFeedback(message) {
     feedbackMessage.remove();
   }, 3000);
 }
+
+
