@@ -5,6 +5,26 @@ const tags = ['Frontend', 'Backend', 'Fullstack'];
 let selectedUserId = null; // Variável para armazenar o usuário selecionado
 let selectedTag = null; // Variável para armazenar a tag selecionada
 
+// Array de cards (com status) em memória inicial
+let cards = [
+    { id: 1, title: 'Implementar página de login', userId: 1, tag: 'Frontend', status: 'Todo' },
+    { id: 2, title: 'Configurar servidor', userId: 2, tag: 'Backend', status: 'In Progress' },
+    { id: 3, title: 'Criar API para pagamentos', userId: 3, tag: 'Fullstack', status: 'Completed' },
+    { id: 4, title: 'Design do dashboard', userId: 4, tag: 'Frontend', status: 'Todo' }
+];
+
+// Função para carregar os cards do localStorage ou salvar os cards iniciais
+function loadCardsFromLocalStorage() {
+    const storedCards = localStorage.getItem('cards');
+    if (storedCards) {
+        // Se houver cards no localStorage, carregá-los
+        cards = JSON.parse(storedCards);
+    } else {
+        // Se não houver, salvar os cards da memória inicial no localStorage
+        localStorage.setItem('cards', JSON.stringify(cards));
+    }
+}
+
 // Função para buscar os dados de usuários e salvar no localStorage
 async function fetchUsers() {
     const url = 'https://gist.githubusercontent.com/juliano340/cb155b5de64d5b89ac705d594ef5b7f6/raw/0edb521f8f40fe2a612ab0cf09d5c7f1610b8949/users';
@@ -64,14 +84,6 @@ function displayTags() {
     });
 }
 
-// Array de cards (com status)
-let cards = [
-    { id: 1, title: 'Implementar página de login', userId: 1, tag: 'Frontend', status: 'Todo' },
-    { id: 2, title: 'Configurar servidor', userId: 2, tag: 'Backend', status: 'In Progress' },
-    { id: 3, title: 'Criar API para pagamentos', userId: 3, tag: 'Fullstack', status: 'Completed' },
-    { id: 4, title: 'Design do dashboard', userId: 4, tag: 'Frontend', status: 'Todo' }
-];
-
 // Função para exibir os cards das atividades no estilo Kanban
 function displayCards(users, filteredUserId = null, filteredTag = null) {
     // Limpa os cards anteriores
@@ -115,7 +127,7 @@ function displayCards(users, filteredUserId = null, filteredTag = null) {
     });
 }
 
-/// Função para mover o card para a esquerda
+// Função para mover o card para a esquerda
 window.moveCardLeft = function(cardId) {
     const card = cards.find(c => c.id === cardId);
     if (card.status === 'In Progress') {
@@ -123,6 +135,8 @@ window.moveCardLeft = function(cardId) {
     } else if (card.status === 'Completed') {
         card.status = 'In Progress';
     }
+    // Salva os cards atualizados no localStorage
+    localStorage.setItem('cards', JSON.stringify(cards));
     const users = JSON.parse(localStorage.getItem('users')); // Obtém os usuários do localStorage
     displayCards(users, selectedUserId, selectedTag); // Atualiza a exibição dos cards
 }
@@ -135,6 +149,8 @@ window.moveCardRight = function(cardId) {
     } else if (card.status === 'In Progress') {
         card.status = 'Completed';
     }
+    // Salva os cards atualizados no localStorage
+    localStorage.setItem('cards', JSON.stringify(cards));
     const users = JSON.parse(localStorage.getItem('users')); // Obtém os usuários do localStorage
     displayCards(users, selectedUserId, selectedTag); // Atualiza a exibição dos cards
 }
@@ -185,9 +201,9 @@ function addTagClickEvents(users) {
     });
 }
 
-// Chama a função para buscar os dados de usuários
+// Chama a função para buscar os dados de usuários e carregar cards do localStorage
+loadCardsFromLocalStorage();
 fetchUsers();
-
 
 // MODAL
 

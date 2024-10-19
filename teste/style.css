@@ -188,3 +188,103 @@ header {
   font-size: 16px;
   font-weight: bold;
 }
+
+
+/* Estilo básico do modal */
+.modal {
+  display: none; /* Escondido por padrão */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto; /* Alinha o modal no centro da tela */
+  padding: 20px;
+  border-radius: 10px;
+  width: 40%; /* Ajusta a largura do modal */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra para destacar o modal */
+  position: relative; /* Para alinhar o botão de fechar */
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #555;
+}
+
+.close:hover {
+  color: #000;
+}
+
+/* Estilo do título do modal */
+.modal-content h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Estilo do formulário */
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilo dos labels */
+.modal-content label {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Estilo dos selects e textarea */
+.modal-content select,
+.modal-content textarea {
+  margin-top: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.modal-content select:focus,
+.modal-content textarea:focus {
+  border-color: #007bff;
+  background-color: #fff;
+}
+
+/* Estilo do botão de salvar tarefa */
+.modal-content button[type="submit"] {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo para o textarea */
+.modal-content textarea {
+  resize: none;
+  height: 80px; /* Define a altura do campo de descrição */
+}
