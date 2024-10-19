@@ -1,28 +1,71 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Board</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
     <header>
-      <div>
-          <h1>Usuários</h1>
-          <ul id="userList"></ul> <!-- Lista para os usuários -->
+        <div>
+            <h1>Usuários</h1>
+            <ul id="userList"></ul> <!-- Lista para os usuários -->
+        </div>
+        <div>
+          <button id="addTaskButton">+</button>
+        </div>
+        <div>
+            <h2>Tags</h2>
+            <ul id="tagList"></ul> <!-- Lista para as tags -->
+        </div>
+    </header>
+
+    <section id="kanbanBoard">
+      <div id="todoColumn" class="kanban-column">
+        <h2>Todo</h2>
+        <!-- Cards da coluna "Todo" serão adicionados aqui -->
       </div>
-
-      <div>
-          <h2>Tags</h2>
-          <ul id="tagList"></ul> <!-- Lista para as tags -->
+      
+      <div id="inProgressColumn" class="kanban-column">
+        <h2>In Progress</h2>
+        <!-- Cards da coluna "In Progress" serão adicionados aqui -->
       </div>
-  </header>
+      
+      <div id="completedColumn" class="kanban-column">
+        <h2>Completed</h2>
+        <!-- Cards da coluna "Completed" serão adicionados aqui -->
+      </div>
+    </section>
 
-  <section id="cardContainer"></section> <!-- Container para os cards das atividades -->
+    <div id="taskModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Adicionar Nova Tarefa</h2>
+        <form id="addTaskForm">
+          <label for="userSelect">Usuário:</label>
+          <select id="userSelect" required>
+            <!-- Opções de usuários serão carregadas aqui -->
+          </select>
+    
+          <label for="tagSelect">Tag:</label>
+          <select id="tagSelect" required>
+            <!-- Opções de tags serão carregadas aqui -->
+          </select>
+    
+          <label for="taskDescription">Descrição:</label>
+          <textarea id="taskDescription" required></textarea>
+    
+          <button type="submit">Salvar Tarefa</button>
+        </form>
+      </div>
+    </div>
+    
+    
 
-
-    <script type="module" src="/main.js"></script>
-  </body>
+    
+        <script type="module" src="/main.js"></script>
+</body>
 </html>
+
+

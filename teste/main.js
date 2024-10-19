@@ -64,18 +64,20 @@ function displayTags() {
     });
 }
 
+// Array de cards (com status)
+let cards = [
+    { id: 1, title: 'Implementar página de login', userId: 1, tag: 'Frontend', status: 'Todo' },
+    { id: 2, title: 'Configurar servidor', userId: 2, tag: 'Backend', status: 'In Progress' },
+    { id: 3, title: 'Criar API para pagamentos', userId: 3, tag: 'Fullstack', status: 'Completed' },
+    { id: 4, title: 'Design do dashboard', userId: 4, tag: 'Frontend', status: 'Todo' }
+];
+
 // Função para exibir os cards das atividades no estilo Kanban
 function displayCards(users, filteredUserId = null, filteredTag = null) {
-    const cardContainer = document.getElementById('cardContainer'); // Container para os cards
-    cardContainer.innerHTML = ''; // Limpa os cards anteriores
-
-    // Exemplo de array de cards
-    const cards = [
-        { title: 'Implementar página de login', userId: 1, tag: 'Frontend' },
-        { title: 'Configurar servidor', userId: 2, tag: 'Backend' },
-        { title: 'Criar API para pagamentos', userId: 3, tag: 'Fullstack' },
-        { title: 'Design do dashboard', userId: 4, tag: 'Frontend' }
-    ];
+    // Limpa os cards anteriores
+    document.getElementById('todoColumn').innerHTML = '';
+    document.getElementById('inProgressColumn').innerHTML = '';
+    document.getElementById('completedColumn').innerHTML = '';
 
     // Filtragem dos cards com base no usuário e na tag selecionados
     const filteredCards = cards.filter(card => {
@@ -91,15 +93,50 @@ function displayCards(users, filteredUserId = null, filteredTag = null) {
         // Encontra o usuário relacionado ao card
         const user = users.find(user => user.id === card.userId);
         
-        // Estrutura do card
+        // Estrutura do card com botões para mover para direita/esquerda
         cardDiv.innerHTML = `
             <h3>${card.title}</h3>
             <p><strong>Usuário:</strong> ${user.name}</p>
             <p><strong>Tag:</strong> ${card.tag}</p>
+            <div class="card-buttons">
+                ${card.status !== 'Todo' ? `<button onclick="moveCardLeft(${card.id})">⬅️</button>` : ''}
+                ${card.status !== 'Completed' ? `<button onclick="moveCardRight(${card.id})">➡️</button>` : ''}
+            </div>
         `;
 
-        cardContainer.appendChild(cardDiv); // Adiciona o card ao container
+        // Adiciona o card na coluna apropriada com base no status
+        if (card.status === 'Todo') {
+            document.getElementById('todoColumn').appendChild(cardDiv);
+        } else if (card.status === 'In Progress') {
+            document.getElementById('inProgressColumn').appendChild(cardDiv);
+        } else if (card.status === 'Completed') {
+            document.getElementById('completedColumn').appendChild(cardDiv);
+        }
     });
+}
+
+/// Função para mover o card para a esquerda
+window.moveCardLeft = function(cardId) {
+    const card = cards.find(c => c.id === cardId);
+    if (card.status === 'In Progress') {
+        card.status = 'Todo';
+    } else if (card.status === 'Completed') {
+        card.status = 'In Progress';
+    }
+    const users = JSON.parse(localStorage.getItem('users')); // Obtém os usuários do localStorage
+    displayCards(users, selectedUserId, selectedTag); // Atualiza a exibição dos cards
+}
+
+// Função para mover o card para a direita
+window.moveCardRight = function(cardId) {
+    const card = cards.find(c => c.id === cardId);
+    if (card.status === 'Todo') {
+        card.status = 'In Progress';
+    } else if (card.status === 'In Progress') {
+        card.status = 'Completed';
+    }
+    const users = JSON.parse(localStorage.getItem('users')); // Obtém os usuários do localStorage
+    displayCards(users, selectedUserId, selectedTag); // Atualiza a exibição dos cards
 }
 
 // Função para adicionar eventos de clique aos usuários (com toggle de filtro)
@@ -150,3 +187,105 @@ function addTagClickEvents(users) {
 
 // Chama a função para buscar os dados de usuários
 fetchUsers();
+
+
+// MODAL
+
+// Função para abrir o modal
+const modal = document.getElementById("taskModal");
+const addTaskButton = document.getElementById("addTaskButton");
+const closeModal = document.querySelector(".close");
+const feedbackMessage = document.createElement('div'); // Div para o feedback
+
+addTaskButton.onclick = function() {
+  modal.style.display = "block";
+  populateUserOptions();
+  populateTagOptions();
+}
+
+closeModal.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Função para popular as opções de usuários no modal
+function populateUserOptions() {
+  const userSelect = document.getElementById("userSelect");
+  userSelect.innerHTML = ''; // Limpa as opções anteriores
+  const users = JSON.parse(localStorage.getItem('users')); // Obtém os usuários do localStorage
+
+  users.forEach(user => {
+    const option = document.createElement("option");
+    option.value = user.id;
+    option.textContent = user.name;
+    userSelect.appendChild(option);
+  });
+}
+
+// Função para popular as opções de tags no modal
+function populateTagOptions() {
+  const tagSelect = document.getElementById("tagSelect");
+  tagSelect.innerHTML = ''; // Limpa as opções anteriores
+
+  tags.forEach(tag => {
+    const option = document.createElement("option");
+    option.value = tag;
+    option.textContent = tag;
+    tagSelect.appendChild(option);
+  });
+}
+
+// Lidar com o envio do formulário para adicionar nova tarefa
+const addTaskForm = document.getElementById("addTaskForm");
+addTaskForm.onsubmit = function(event) {
+  event.preventDefault();
+
+  const userId = document.getElementById("userSelect").value;
+  const tag = document.getElementById("tagSelect").value;
+  const description = document.getElementById("taskDescription").value;
+
+  // Criar o novo card com status "Todo"
+  const newCard = {
+    id: cards.length + 1, // Gera um novo ID incremental
+    title: description,
+    userId: parseInt(userId),
+    tag: tag,
+    status: "Todo"
+  };
+
+  // Adiciona a nova tarefa ao array de cards
+  cards.push(newCard);
+
+  // Atualiza a exibição dos cards
+  const users = JSON.parse(localStorage.getItem('users')); // Obtém os usuários do localStorage
+  displayCards(users, selectedUserId, selectedTag);
+
+  // Salva os cards no localStorage
+  localStorage.setItem('cards', JSON.stringify(cards));
+
+  // Limpar os campos do modal após salvar
+  addTaskForm.reset(); 
+
+  // Fechar o modal
+  modal.style.display = "none";
+
+  // Exibir mensagem de feedback
+  showFeedback("Tarefa adicionada com sucesso!");
+}
+
+// Função para exibir o feedback
+function showFeedback(message) {
+  feedbackMessage.classList.add('feedback');
+  feedbackMessage.textContent = message;
+  document.body.appendChild(feedbackMessage);
+
+  // Remove a mensagem de feedback após 3 segundos
+  setTimeout(() => {
+    feedbackMessage.remove();
+  }, 3000);
+}
