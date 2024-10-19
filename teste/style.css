@@ -1,0 +1,105 @@
+/* Estilo para o container geral */
+header {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+#userList {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Estilo para a lista de usuários */
+#userList li {
+  list-style: none;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff; /* Fundo branco para usuários */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Estilo para a imagem dos usuários */
+#userList img {
+  margin-right: 10px;
+}
+
+/* Estilo para o item de usuário selecionado */
+#userList li.selected {
+  background-color: #007bff; /* Fundo azul quando selecionado */
+  color: white; /* Cor branca para o texto do usuário selecionado */
+}
+
+/* Estilo para as tags */
+#tagList li {
+  list-style: none;
+  display: inline-block;
+  margin: 5px;
+  padding: 5px 10px;
+  border: 2px solid #007bff;
+  border-radius: 15px;
+  color: #007bff;
+  background-color: #e9f5ff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Estilo para o item de tag selecionado */
+#tagList li.selected {
+  background-color: #007bff;
+  color: white;
+  border-color: #0056b3; /* Mudança na cor da borda ao ser selecionada */
+}
+
+/* Estilo para o container dos cards (estilo Kanban) */
+#cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espaçamento entre os cards */
+  justify-content: space-around;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #f0f0f0;
+}
+
+/* Estilo para cada card */
+.card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  width: 250px; /* Largura fixa dos cards */
+  margin: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.card p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Estilo para o título do card */
+.card h3 {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Adiciona um efeito hover ao card */
+.card:hover {
+  transform: translateY(-5px);
+  transition: 0.3s ease;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
