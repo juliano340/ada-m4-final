@@ -184,6 +184,9 @@ window.deleteCard = function(cardId) {
     localStorage.setItem('cards', JSON.stringify(cards));
     const users = JSON.parse(localStorage.getItem('users')); // Obtém os usuários do localStorage
     displayCards(users, selectedUserId, selectedTag); // Atualiza a exibição dos cards
+
+    // Exibir mensagem de feedback
+    showFeedback("Tarefa excluída com sucesso!");
 }
 
 // Função para adicionar eventos de clique aos usuários (com toggle de filtro)
