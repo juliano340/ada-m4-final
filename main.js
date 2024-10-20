@@ -107,9 +107,9 @@ function displayTags() {
 // Função para exibir os cards das atividades no estilo Kanban
 function displayCards(users, filteredUserId = null, filteredTag = null) {
     // Limpa os cards anteriores
-    document.getElementById('todoColumn').innerHTML = '';
-    document.getElementById('inProgressColumn').innerHTML = '';
-    document.getElementById('completedColumn').innerHTML = '';
+    document.getElementById('todoColumn').innerHTML = '<h2>📝 To do</h2>';
+    document.getElementById('inProgressColumn').innerHTML = '<h2> 🔄 In progres</h2>';
+    document.getElementById('completedColumn').innerHTML = '<h2> ✅ Completed</h2>';
 
     // Filtragem dos cards com base no usuário e na tag selecionados
     const filteredCards = cards.filter(card => {
