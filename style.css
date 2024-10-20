@@ -323,3 +323,45 @@ header {
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+
+.editButton {
+  padding: 5px 10px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.editInput {
+
+  outline: none; 
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  height: 20px;
+  background-color: #e4e4e4;
+  margin-bottom: 5px;
+  
+  
+}
+
+.editButtonSave {
+  padding: 5px 10px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.editButtonCancel {
+
+  padding: 5px 10px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 5px;
+  color: #000;
+  cursor: pointer;
+
+}

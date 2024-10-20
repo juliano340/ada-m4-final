@@ -125,10 +125,11 @@ function displayCards(users, filteredUserId = null, filteredTag = null) {
         // Encontra o usuário relacionado ao card
         const user = users.find(user => user.id === card.userId);
         
-        // Estrutura do card com botão de excluir no canto superior esquerdo
+        // Estrutura do card com botão de editar título
         cardDiv.innerHTML = `
             <button class="delete-btn" onclick="deleteCard(${card.id})">🗑️</button>
-            <h3>${card.title}</h3>
+            <h3 id="title-${card.id}">${card.title}</h3>
+            <button class="editButton" onclick="editTitle(${card.id})">✏️</button>
             <p><strong>Usuário:</strong> ${user.name}</p>
             <p><strong>Tag:</strong> ${card.tag}</p>
             <p><strong>Criado em:</strong> ${formatDate(card.createdAt)}</p>
@@ -147,6 +148,38 @@ function displayCards(users, filteredUserId = null, filteredTag = null) {
             document.getElementById('completedColumn').appendChild(cardDiv);
         }
     });
+}
+
+// Função para editar o título do card
+window.editTitle = function(cardId) {
+    const card = cards.find(c => c.id === cardId); // Encontra o card pelo ID
+    const titleElement = document.getElementById(`title-${cardId}`); // Seleciona o elemento de título
+
+    // Troca o título por um campo de input para edição
+    titleElement.innerHTML = `
+        <input class="editInput" id="editTitle-${cardId}" type="text" value="${card.title}">
+        <button class="editButtonSave" onclick="saveTitle(${cardId})">Salvar</button>
+        <button class="editButtonCancel" onclick="cancelEditTitle(${cardId}, '${card.title}')">Cancelar</button>
+    `;
+}
+
+// Função para salvar o novo título
+window.saveTitle = function(cardId) {
+    const card = cards.find(c => c.id === cardId); // Encontra o card pelo ID
+    const newTitle = document.getElementById(`editTitle-${cardId}`).value; // Obtém o novo valor do título
+
+    card.title = newTitle; // Atualiza o título no card
+    localStorage.setItem('cards', JSON.stringify(cards)); // Atualiza o localStorage
+    const users = JSON.parse(localStorage.getItem('users')); // Obtém os usuários do localStorage
+    displayCards(users, selectedUserId, selectedTag); // Atualiza a exibição dos cards
+    // Exibir mensagem de feedback
+    showFeedback("Tarefa atualizada com sucesso!");
+}
+
+// Função para cancelar a edição e restaurar o título original
+window.cancelEditTitle = function(cardId, originalTitle) {
+    const titleElement = document.getElementById(`title-${cardId}`);
+    titleElement.innerHTML = originalTitle; // Restaura o título original
 }
 
 // Função para mover o card para a esquerda
