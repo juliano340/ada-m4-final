@@ -47,7 +47,7 @@ function formatDate(date) {
 
 // Função para buscar os dados de usuários e salvar no localStorage
 async function fetchUsers() {
-    const url = 'https://gist.githubusercontent.com/juliano340/cb155b5de64d5b89ac705d594ef5b7f6/raw/0edb521f8f40fe2a612ab0cf09d5c7f1610b8949/users';
+    const url = 'https://gist.githubusercontent.com/juliano340/cb155b5de64d5b89ac705d594ef5b7f6/raw/f494a4ecee9d9484ff20c87e4be3b9c1825fc6fa/users';
 
     try {
         const response = await fetch(url); // Fazendo a requisição para a URL
