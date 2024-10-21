@@ -3,6 +3,8 @@
 
 Este é um projeto desenvolvido como parte do curso **Santander Coder de Frontend** da **ADA**. O objetivo do projeto é criar um quadro Kanban interativo para organizar tarefas, utilizando tecnologias de Frontend como HTML, CSS e JavaScript.
 
+Projeto acessível em: https://ada-m4-final.vercel.app/
+
 ## Funcionalidades
 
 - **Adicionar Tarefas:** Permite adicionar novas tarefas ao quadro Kanban, atribuindo um usuário e uma tag.
